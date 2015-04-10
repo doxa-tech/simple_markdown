@@ -30,8 +30,16 @@ class SimpleMarkdownTest < ActiveSupport::TestCase
  		assert_equal "<p>\nText and more\n</p>", simple_markdown("Text\nand more")
  	end
 
+ 	test "add <br> if return with 2 or more spaces at the end" do
+ 		assert_equal "<p>\nText  <br>\n and more\n</p>", simple_markdown("Text  \nand more")
+ 	end
+
  	test "emphasis" do
  		assert_equal "<p>\n<em>Text</em>\n</p>", simple_markdown("*Text*")
+ 	end
+
+ 	test "strong" do
+ 		assert_equal "<p>\n<strong>Text</strong>\n</p>", simple_markdown("**Text**")
  	end
 
 end
