@@ -33,7 +33,9 @@ module SimpleMarkdown
 		          parse_title                   # title, only works if has return before
 		        else                            # normal block
 		          @io << "<p>"
+		          @io << "\n"
 		          parse_normal
+		          @io << "\n"
 		          @io << "</p>"
 		        end
 		      end
@@ -43,19 +45,24 @@ module SimpleMarkdown
 		  end
 
 		  def parse_normal
+		  	first_time = true
 		    begin
 		      line = @text_map.next
-		      unless(line.match(/^$/)) # end paragraph if empty line
+		      while(!line.match(/^\s*$/)) # end paragraph if empty line
 		        line.gsub!(/(^|[^!])\[([^\]]*)\]\(([^\)]*)\)/, "#{'\1'}<a href=\"#{'\3'.strip}\">#{'\2'}</a>") # link
 		        line.gsub!(/!\[([^\]]*)\]\(([^\)]*)\)/, "<img src=\"#{'\2'}\" alt=\"#{'\1'.strip}\">") # link
 		        line.gsub!(/^\s*\*\s(.*)/, "• #{'\1'}<br>") # list
 		        line.gsub!(/`([^`]+)`/) { |match| "<code>#{h(Regexp.last_match[1])}</code>"} # inline code
 		        line.gsub!(/(^|[^\*])\*([^\*]+)\*/, "#{'\1'}<em>#{'\2'}</em>") # italic
 		        line.gsub!(/\*\*([^\*]*)\*\*/, "<strong>#{'\1'}</strong>") # bold
+		        if(first_time)
+		        	first_time = false
+		 				else
+		 					@io << " "
+		        end
 		        @io << line
-		        @io << "<br>" if line.match(/\s{2,}$/) # return if more than 2 spaces at the end of the line
-		        @io << "\n"
-		        parse_normal
+		        @io << "<br>\n" if line.match(/\s{2,}$/) # return if more than 2 spaces at the end of the line
+		        line = @text_map.next
 		      end
 		    rescue StopIteration
 		      @continue = false
