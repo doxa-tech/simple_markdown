@@ -29,7 +29,7 @@ module SimpleMarkdown
 		        elsif @text_map.peek.match(/^\s*```\s*$/) # code block
 		          @text_map.next
 		          parse_code
-		        elsif @text_map.peek.match(/^\#.*/)
+		        elsif @text_map.peek.match(/^\s*\#/)
 		          parse_title                   # title, only works if has return before
 		        else                            # normal block
 		          @io << "<p>"
@@ -38,7 +38,7 @@ module SimpleMarkdown
 		        end
 		      end
 		    rescue
-		      @io << "<p></p>" # in case empty text
+		      # do nothing
 		    end
 		  end
 
@@ -83,7 +83,7 @@ module SimpleMarkdown
 
 		  def parse_title
 		    line = @text_map.next
-		    line.gsub!(/^\b{0,4}(\#{1,6})(.*)$/) { |match|
+		    line.gsub!(/^\s{0,4}(\#{1,6})(.*)$/) { |match|
 		      num = Regexp.last_match[1].size # number of # = type of <hn></hn>
 		      "<h#{num}>#{Regexp.last_match[2].strip}</h#{num}>"
 		    }
