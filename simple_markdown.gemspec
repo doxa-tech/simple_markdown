@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.version     = SimpleMarkdown::VERSION
   s.authors     = ["Noémien Kocher"]
   s.email       = ["nkcr.je@gmail.com"]
-  s.homepage    = "http://jstech.ch"
-  s.summary     = "Give a simple_markdown method to parse markdown"
+  s.homepage    = "https://github.com/JS-Tech/simple_markdown"
+  s.summary     = "Add `simple_markdown` method to your rails app. It will parse markdown to html"
   s.description = "Given a markdown formated text, transform it to html"
   s.license     = "MIT"
 

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    simple_markdown (0.0.1)
+    simple_markdown (0.0.2)
       rails (~> 4.2.1)
 
 GEM
