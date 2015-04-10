@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email       = ["nkcr.je@gmail.com"]
   s.homepage    = "https://github.com/JS-Tech/simple_markdown"
   s.summary     = "Add `simple_markdown` method to your rails app. It will parse markdown to html"
-  s.description = "Given a markdown formated text, transform it to html"
+  s.description = "Given a markdown formated text, transforms it to html via a simple method `simple_markdown`"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
