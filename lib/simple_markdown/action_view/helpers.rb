@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module SimpleMarkdown
 	module ActionView
 		module Helpers
