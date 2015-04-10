@@ -1,4 +1,4 @@
-[![Gem Version](https://badge.fury.io/rb/simple_markdown.svg)](http://badge.fury.io/rb/simple_markdown)
+[![Gem Version](https://badge.fury.io/rb/simple_markdown.svg)](http://badge.fury.io/rb/simple_markdown) [![Build Status](https://travis-ci.org/JS-Tech/simple_markdown.svg?branch=master)](https://travis-ci.org/JS-Tech/simple_markdown)
 
 # SimpleMarkdown
 
