@@ -1,7 +1,8 @@
+# encoding: utf-8
 require 'test_helper'
 require 'simple_markdown/action_view/helpers'
 
-class SimpleMarkdownTest < ActiveSupport::TestCase
+class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
 	include SimpleMarkdown::ActionView::Helpers
 
   test "truth" do
@@ -47,7 +48,11 @@ class SimpleMarkdownTest < ActiveSupport::TestCase
  	end
 
  	test "multiple lists" do
- 		assert_equal "<p>\n• Text<br>• Text<br>• Text<br>\n</p>", simple_markdown("* Text\n* Text\n* Text")
+ 		assert_equal "<p>\n• Text<br> • Text<br> • Text<br>\n</p>", simple_markdown("* Text\n* Text\n* Text")
+ 	end
+
+ 	test "inline code" do
+ 		assert_equal "<p>\n", simple_markdown("This is `code`")
  	end
 
 end
