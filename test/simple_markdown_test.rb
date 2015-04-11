@@ -42,4 +42,12 @@ class SimpleMarkdownTest < ActiveSupport::TestCase
  		assert_equal "<p>\n<strong>Text</strong>\n</p>", simple_markdown("**Text**")
  	end
 
+ 	test "list" do
+ 		assert_equal "<p>\n• Text<br>\n</p>", simple_markdown("* Text")
+ 	end
+
+ 	test "multiple lists" do
+ 		assert_equal "<p>\n• Text<br>• Text<br>• Text<br>\n</p>", simple_markdown("* Text\n* Text\n* Text")
+ 	end
+
 end
