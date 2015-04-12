@@ -39,3 +39,6 @@ This is a ![link](http://example.com)
 
 # Special non-markdown
 coming
+```
+[flex][flex][flex]
+```
