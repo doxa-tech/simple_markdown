@@ -40,7 +40,7 @@ This is a ![link](http://example.com)
 # Special non-markdown
 coming
 ```
-[flex]
+[3flex]
 flex block number one
 * a list
 [flex]
