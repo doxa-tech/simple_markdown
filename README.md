@@ -40,5 +40,16 @@ This is a ![link](http://example.com)
 # Special non-markdown
 coming
 ```
-[flex][flex][flex]
+[flex]
+flex block number one
+* a list
+[flex]
+flex block number two
+\```
+a code block
+\```
+[flex]
+flex block number tree
+with text
+[flex]
 ```
