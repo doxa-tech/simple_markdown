@@ -4,6 +4,8 @@
 
 This project rocks and uses MIT-LICENSE.
 
+**Note** : does not provide an exhaustive markdown parser. It is intended only to give the most simple and usefull syntax, so as to keep it simple (stupid?).
+
 # Features
 
 * Titles with
