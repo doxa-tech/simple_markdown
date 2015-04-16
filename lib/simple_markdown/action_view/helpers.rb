@@ -7,70 +7,69 @@ module SimpleMarkdown
 		  @text_map
 		  @io
 		  @current
-		  @continue
 
 		  # Main entry
 		  def simple_markdown(text)
 		    text = text.gsub(/\r\n?/, "\n").split(/\n/)
 		    @text_map = text.map
 		    @io = StringIO.new
-		    parse_p
+		    parse_block
 		    @io.string.html_safe
 		  end
 
 		  private
 
-		  def parse_p
-		    @continue = true
-		    begin
-		      while(@continue)
+			def parse_block
+				begin
+		      while(true)
 		        if(@text_map.peek.match(/^$/))  # don't want empty <p></p>
 		          @text_map.next
 		        elsif @text_map.peek.match(/^\s*```\s*$/) # code block
 		          @text_map.next
 		          parse_code
 		        elsif @text_map.peek.match(/^\s*\#/)
-		          parse_title                   # title, only works if has return before
-		        else                            # normal block
-		          @io << "<p>"
-		          @io << "\n"
-		          parse_normal
-		          @io << "\n"
-		          @io << "</p>"
+		          parse_title                   # title, only works if has return before (except first time)
+		        elsif @text_map.peek.match(/^\s*\[[0-9]+flex\]\s*$/)
+		        	@text_map.next
+							parse_flex
+						else                            # normal block
+		          parse_p
 		        end
 		      end
-		    rescue
+		    rescue StopIteration
 		      # do nothing
 		    end
+			end
+
+		  def parse_p
+				begin
+				  @io << "<p>"
+					@io << "\n"
+					while(!@text_map.peek.match(/^\s*$/)) # end paragraph if empty line
+						parse_normal
+					end
+				rescue StopIteration
+					# do nothing
+				ensure
+					@io << "\n"
+					@io << "</p>"
+				end
 		  end
 
 		  def parse_normal
-		  	first_time = true
-		    begin
-		      line = @text_map.next
-		      while(!line.match(/^\s*$/)) # end paragraph if empty line
-		        line.gsub!(/(^|[^!])\[([^\]]*)\]\(([^\)]*)\)/, "#{'\1'}<a href=\"#{'\3'.strip}\">#{'\2'}</a>") # link
-		        line.gsub!(/!\[([^\]]*)\]\(([^\)]*)\)/, "<img src=\"#{'\2'}\" alt=\"#{'\1'.strip}\">") # link
-		        line.gsub!(/^\s*\*\s(.*)/, "• #{'\1'}<br>") # list
-		        line.gsub!(/`([^`]+)`/) { |match| "<code>#{h(Regexp.last_match[1])}</code>"} # inline code
-		        line.gsub!(/(^|[^\*])\*([^\*]+)\*/, "#{'\1'}<em>#{'\2'}</em>") # italic
-		        line.gsub!(/\*\*([^\*]*)\*\*/, "<strong>#{'\1'}</strong>") # bold
-		        if(first_time)
-		        	first_time = false
-		 				else
-		 					@io << " "
-		        end
-		        @io << line
-		        @io << "<br>\n" if line.match(/\s{2,}$/) # return if more than 2 spaces at the end of the line
-		        line = @text_map.next
-		      end
-		    rescue StopIteration
-		      @continue = false
-		    end
+	      line = @text_map.next
+	      line.gsub!(/(^|[^!])\[([^\]]*)\]\(([^\)]*)\)/, "#{'\1'}<a href=\"#{'\3'.strip}\">#{'\2'}</a>") # link
+	      line.gsub!(/!\[([^\]]*)\]\(([^\)]*)\)/, "<img src=\"#{'\2'}\" alt=\"#{'\1'.strip}\">") # image
+	      line.gsub!(/^\s*\*\s(.*)/, "• #{'\1'}<br>") # list
+	      line.gsub!(/`([^`]+)`/) { |match| "<code>#{CGI::escapeHTML(Regexp.last_match[1])}</code>"} # inline code
+        line.gsub!(/(^|[^\*])\*([^\*]+)\*/, "#{'\1'}<em>#{'\2'}</em>") # italic
+        line.gsub!(/\*\*([^\*]*)\*\*/, "<strong>#{'\1'}</strong>") # bold
+        @io << line.gsub(/^([^\s]*)\s+$/, '\1 ') # prints one space if on or more at then end of the line
+        @io << "<br>\n" if line.match(/\s{2,}$/) # return if more than 2 spaces at the end of the line
 		  end
 
 		  def parse_code
-		    @io << "<pre><code>"
+		    @io << "<pre><code>\n"
 		    continue = true
 		    while(continue)
 		      begin
@@ -78,7 +77,7 @@ module SimpleMarkdown
 		        if line.match(/^\s*```\s*$/)
 		          continue = false
 		        else
-		          @io << h(line)
+		          @io << CGI::escapeHTML(line)
 		          @io << "\n"
 		        end
 		      rescue StopIteration
@@ -96,6 +95,23 @@ module SimpleMarkdown
 		    }
 		    @io << line
 		  end
+
+		  def parse_flex
+		  	number = @text_map.peek.scan(/[0-9]+/)
+		  	@io << "<div style=\"display:flex\">"
+		  	1.upto(number) do |i|
+					@io << "<div>"
+					parse_p
+					@io << "</div>"
+		  	end
+		  	@text_map.next
+		  	@io << "</div>"
+		  end
+
+			def parse_sub_flex
+				line = @text_map.next
+				#while(!line.match(/\s*\[flex\]\s*/))
+			end
 
 		end
 	end

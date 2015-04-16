@@ -9,7 +9,7 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
     assert_kind_of Module, SimpleMarkdown
   end
 
-  test "test titles" do
+  test "titles" do
   	1.upto(6) do |i|
   		assert_equal "<h#{i}>Title</h#{i}>", simple_markdown("#{'#'*i} Title")
   	end
@@ -28,11 +28,11 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
  	end
 
  	test "no <br> with one return without spaces at the end and add space" do
- 		assert_equal "<p>\nText and more\n</p>", simple_markdown("Text\nand more")
+ 		assert_equal "<p>\nText and more\n</p>", simple_markdown("Text \nand more")
  	end
 
  	test "add <br> if return with 2 or more spaces at the end" do
- 		assert_equal "<p>\nText  <br>\n and more\n</p>", simple_markdown("Text  \nand more")
+ 		assert_equal "<p>\nText <br>\nand more\n</p>", simple_markdown("Text  \nand more")
  	end
 
  	test "emphasis" do
@@ -48,12 +48,21 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
  	end
 
  	test "multiple lists" do
- 		assert_equal "<p>\n• Text<br> • Text<br> • Text<br>\n</p>", simple_markdown("* Text\n* Text\n* Text")
+ 		assert_equal "<p>\n• Text<br>• Text<br>• Text<br>\n</p>", simple_markdown("* Text\n* Text\n* Text")
  	end
 
  	test "inline code" do
- 		skip("Strange result, should be ok but for reason it is not. Needs investigations")
+ 		# I had to use CGI::escapeHTML in my code to make it work
  		assert_equal "<p>\nThis is <code>#{CGI::escapeHTML('<b>code</b>')}</code>\n</p>", simple_markdown("This is `<b>code</b>`")
  	end
+
+	test "code block" do
+		assert_equal "<pre><code>\n#{CGI::escapeHTML('<b>code</b>')}\n</code></pre>", simple_markdown("```\n<b>code</b>\n```")
+	end
+
+	test "flex block" do
+		assert_equal "<div style=\"display:flex;\">\n<div><p>\nThis is text\n</p></div><div><p>\nThis is text\n</p></div></div>",
+				simple_markdown("[2flex]\nThis is text\n[flex]\nThis is text\n[flex]")
+	end
 
 end
