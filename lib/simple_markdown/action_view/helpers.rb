@@ -30,7 +30,6 @@ module SimpleMarkdown
 		        elsif @text_map.peek.match(/^\s*\#/)
 		          parse_title                   # title, only works if has return before (except first time)
 		        elsif @text_map.peek.match(/^\s*\[[0-9]+flex\]\s*$/)
-		        	@text_map.next
 							parse_flex
 						else                            # normal block
 		          parse_p
@@ -97,7 +96,8 @@ module SimpleMarkdown
 		  end
 
 		  def parse_flex
-		  	number = @text_map.peek.scan(/[0-9]+/)
+				line = @text_map.next
+		  	number = line.scan(/[0-9]+/)[0].to_i
 		  	@io << "<div style=\"display:flex\">"
 		  	1.upto(number) do |i|
 					@io << "<div>"
