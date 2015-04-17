@@ -96,21 +96,27 @@ module SimpleMarkdown
 		  end
 
 		  def parse_flex
-				line = @text_map.next
-		  	number = line.scan(/[0-9]+/)[0].to_i
-		  	@io << "<div style=\"display:flex\">"
-		  	1.upto(number) do |i|
-					@io << "<div>"
-					parse_p
-					@io << "</div>"
-		  	end
-		  	@text_map.next
-		  	@io << "</div>"
+				begin
+					@io << "<div style=\"display:flex;\">\n"
+					line = @text_map.next
+			  	number = line.scan(/[0-9]+/)[0].to_i
+			  	1.upto(number) do |i|
+						@io << "<div><p>\n"
+						parse_sub_flex
+						@io << "\n</p></div>"
+			  	end
+				rescue StopIteration
+					# do nothing
+				ensure
+		  		@io << "\n</div>"
+				end
 		  end
 
 			def parse_sub_flex
-				line = @text_map.next
-				#while(!line.match(/\s*\[flex\]\s*/))
+				while(!@text_map.peek.match(/^\s*\[flex\]\s*$/))
+					parse_normal
+				end
+				@text_map.next
 			end
 
 		end

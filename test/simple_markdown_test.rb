@@ -61,8 +61,8 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
 	end
 
 	test "flex block" do
-		skip("flex block is in WIP")
-		assert_equal "<div style=\"display:flex;\">\n<div><p>\nThis is text\n</p></div><div><p>\nThis is text\n</p></div></div>",
+		# skip("flex block is in WIP")
+		assert_equal "<div style=\"display:flex;\">\n<div><p>\nThis is text\n</p></div><div><p>\nThis is text\n</p></div>\n</div>",
 				simple_markdown("[2flex]\nThis is text\n[flex]\nThis is text\n[flex]")
 	end
 
