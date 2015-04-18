@@ -40,20 +40,20 @@ This is a ![link](http://example.com)
 ```
 
 # Special non-markdown
-I haded the ability to make horizontal block.
+I aded the ability to make horizontal blocks.
 
-* Two horizontal block with
+* Two horizontal block with (specify the number of block in the first tag)
 ```
 [2flex]
 
-flex block number one with
+This is the flex block number one, with
 * a list
 
 [flex]
 
-flex block number two
+This is the flex block number two
 \```
-a code block
+a code block (backticks escaped with '\')
 \```
 
 [flex]
@@ -61,7 +61,7 @@ a code block
 Normal paragraph, not in block.
 ```
 
-* You can specify the with of each block, relative to the others with
+* You can specify the width of each block, relative to the other ones
 ```
 [2flex1]
 
