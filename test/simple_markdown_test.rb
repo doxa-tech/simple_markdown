@@ -19,6 +19,10 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
  		assert_equal "", simple_markdown("")
  	end
 
+	test "empty even with many returns" do
+		assert_equal "", simple_markdown("\n\n\n")
+	end
+
  	test "paragraph" do
  		assert_equal "<p>\nText\n</p>", simple_markdown("Text")
  	end
