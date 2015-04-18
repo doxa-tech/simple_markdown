@@ -70,7 +70,7 @@ module SimpleMarkdown
 		    @io << "<pre><code>"
 		    continue = true
 		    while(continue)
-		      begin
+		      # begin
 		        line = @text_map.next
 		        if line.match(/^\s*```\s*$/)
 		          continue = false
@@ -78,9 +78,9 @@ module SimpleMarkdown
 		          @io << CGI::escapeHTML(line)
 		          @io << "\n" unless @text_map.peek.match(/^\s*```\s*$/)
 		        end
-		      rescue StopIteration
-		        continue = false
-		      end
+		      # rescue StopIteration
+		      #   continue = false
+		      # end
 		    end
 		    @io << "</code></pre>"
 		  end
@@ -95,7 +95,7 @@ module SimpleMarkdown
 		  end
 
 		  def parse_flex
-				begin
+				# begin
 					@io << "<div style=\"display:flex; justify-content:space-between; align-items: flex-start;\">\n"
 					line = @text_map.next
 					scan = line.scan(/[0-9]+/)
@@ -114,11 +114,11 @@ module SimpleMarkdown
 						space = line.scan(/[0-9]+/)[0]
 						@io << "\n</div>"
 			  	end
-				rescue StopIteration
-					# do nothing
-				ensure
+				# rescue StopIteration
+				# 	# do nothing
+				# ensure
 		  		@io << "\n</div>"
-				end
+				# end
 		  end
 
 		end
