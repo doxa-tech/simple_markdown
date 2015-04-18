@@ -1,4 +1,6 @@
-[![Gem Version](https://badge.fury.io/rb/simple_markdown.svg)](http://badge.fury.io/rb/simple_markdown) [![Build Status](https://travis-ci.org/JS-Tech/simple_markdown.svg?branch=master)](https://travis-ci.org/JS-Tech/simple_markdown)
+[![Gem Version](https://badge.fury.io/rb/simple_markdown.svg)](http://badge.fury.io/rb/simple_markdown)
+[![Build Status](https://travis-ci.org/JS-Tech/simple_markdown.svg?branch=master)](https://travis-ci.org/JS-Tech/simple_markdown)
+[![Coverage Status](https://coveralls.io/repos/JS-Tech/simple_markdown/badge.svg)](https://coveralls.io/r/JS-Tech/simple_markdown)
 
 # SimpleMarkdown
 
