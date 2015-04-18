@@ -38,18 +38,35 @@ This is a ![link](http://example.com)
 ```
 
 # Special non-markdown
-coming
+I haded the ability to make horizontal block.  
+Two horizontal block with
 ```
-[3flex]
-flex block number one
+[2flex]
+
+flex block number one with
 * a list
+
 [flex]
+
 flex block number two
 \```
 a code block
 \```
+
 [flex]
-flex block number tree
-with text
+
+Normal paragraph, not in block.
+```
+
+You can specify the with of each block, relative to the others with
+```
+[2flex1]
+
+This block n°1 has 1/3 of the width
+
+[flex2]
+
+This block n°2 has 2/3 of the with
+
 [flex]
 ```
