@@ -38,8 +38,9 @@ This is a ![link](http://example.com)
 ```
 
 # Special non-markdown
-I haded the ability to make horizontal block.  
-Two horizontal block with
+I haded the ability to make horizontal block.
+
+* Two horizontal block with
 ```
 [2flex]
 
@@ -58,7 +59,7 @@ a code block
 Normal paragraph, not in block.
 ```
 
-You can specify the with of each block, relative to the others with
+* You can specify the with of each block, relative to the others with
 ```
 [2flex1]
 
