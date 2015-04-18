@@ -63,13 +63,13 @@ Normal paragraph, not in block.
 
 * You can specify the width of each block, relative to the other ones
 ```
-[2flex1]
+[2flex4]
 
-This block n°1 has 1/3 of the width
+This block n°1 has 4/5th of the width
 
-[flex2]
+[flex1]
 
-This block n°2 has 2/3 of the with
+This block n°2 has 1/5th of the with
 
 [flex]
 ```
