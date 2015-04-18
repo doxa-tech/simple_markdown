@@ -13,45 +13,44 @@ module SimpleMarkdown
 		    text = text.gsub(/\r\n?/, "\n").split(/\n/)
 		    @text_map = text.map
 		    @io = StringIO.new
-		    parse_block
-		    @io.string.html_safe
+				begin
+					while(true)
+			    	parse_block
+					end
+				rescue StopIteration
+				ensure
+		    	return @io.string.html_safe
+				end
 		  end
 
 		  private
 
 			def parse_block
-				begin
-		      while(true)
-		        if(@text_map.peek.match(/^$/))  # don't want empty <p></p>
-		          @text_map.next
-		        elsif @text_map.peek.match(/^\s*```\s*$/) # code block
-		          @text_map.next
-		          parse_code
-		        elsif @text_map.peek.match(/^\s*\#/)
-		          parse_title                   # title, only works if has return before (except first time)
-		        elsif @text_map.peek.match(/^\s*\[[0-9]+flex\]\s*$/)
-							parse_flex
-						else                            # normal block
-		          parse_p
-		        end
-		      end
-		    rescue StopIteration
-		      # do nothing
-		    end
+        if(@text_map.peek.match(/^$/))  # don't want empty <p></p>
+          @text_map.next
+        elsif @text_map.peek.match(/^\s*```\s*$/) # code block
+          @text_map.next
+          parse_code
+        elsif @text_map.peek.match(/^\s*\#/)
+          parse_title                  # title, only works if has return before (except first time)
+        elsif @text_map.peek.match(/^\s*\[[0-9]+flex[0-9]*\]\s*$/)
+					parse_flex
+				else                            # normal block
+          parse_p
+        end
 			end
 
 		  def parse_p
 				begin
-				  @io << "<p>"
-					@io << "\n"
+				  @io << "<p>\n"
 					while(!@text_map.peek.match(/^\s*$/)) # end paragraph if empty line
 						parse_normal
 					end
+					@text_map.next;
 				rescue StopIteration
 					# do nothing
 				ensure
-					@io << "\n"
-					@io << "</p>"
+					@io << "\n</p>"
 				end
 		  end
 
@@ -68,7 +67,7 @@ module SimpleMarkdown
 		  end
 
 		  def parse_code
-		    @io << "<pre><code>\n"
+		    @io << "<pre><code>"
 		    continue = true
 		    while(continue)
 		      begin
@@ -77,7 +76,7 @@ module SimpleMarkdown
 		          continue = false
 		        else
 		          @io << CGI::escapeHTML(line)
-		          @io << "\n"
+		          @io << "\n" unless @text_map.peek.match(/^\s*```\s*$/)
 		        end
 		      rescue StopIteration
 		        continue = false
@@ -97,13 +96,23 @@ module SimpleMarkdown
 
 		  def parse_flex
 				begin
-					@io << "<div style=\"display:flex;\">\n"
+					@io << "<div style=\"display:flex; justify-content:space-between; align-items: flex-start;\">\n"
 					line = @text_map.next
-			  	number = line.scan(/[0-9]+/)[0].to_i
+					scan = line.scan(/[0-9]+/)
+			  	number = scan[0].to_i
+					space = scan[1]
 			  	1.upto(number) do |i|
-						@io << "<div><p>\n"
-						parse_sub_flex
-						@io << "\n</p></div>"
+						if space
+							@io << "<div style=\"flex:#{space};\">\n"
+						else
+							@io << "<div>\n"
+						end
+						while(!@text_map.peek.match(/^\s*\[flex[0-9]*\]\s*$/))
+							parse_block
+						end
+						line = @text_map.next
+						space = line.scan(/[0-9]+/)[0]
+						@io << "\n</div>"
 			  	end
 				rescue StopIteration
 					# do nothing
@@ -111,13 +120,6 @@ module SimpleMarkdown
 		  		@io << "\n</div>"
 				end
 		  end
-
-			def parse_sub_flex
-				while(!@text_map.peek.match(/^\s*\[flex\]\s*$/))
-					parse_normal
-				end
-				@text_map.next
-			end
 
 		end
 	end
