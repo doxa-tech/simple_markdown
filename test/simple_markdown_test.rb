@@ -27,6 +27,10 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
  		assert_equal "<p>\nText\n</p>", simple_markdown("Text")
  	end
 
+	test "don't add empty <p></p> even with multiple returns" do
+		assert_equal "<p>\nText\n</p><p>\nText\n</p>", simple_markdown("Text\n\n\n\n\nText")
+	end
+
  	test "multiple paragraphs" do
  		assert_equal "<p>\nText\n</p><p>\nText2\n</p>", simple_markdown("Text\n\nText2")
  	end
