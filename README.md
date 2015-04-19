@@ -1,6 +1,7 @@
 [![Gem Version](https://badge.fury.io/rb/simple_markdown.svg)](http://badge.fury.io/rb/simple_markdown)
 [![Build Status](https://travis-ci.org/JS-Tech/simple_markdown.svg?branch=master)](https://travis-ci.org/JS-Tech/simple_markdown)
 [![Coverage Status](https://coveralls.io/repos/JS-Tech/simple_markdown/badge.svg)](https://coveralls.io/r/JS-Tech/simple_markdown)
+[![Code Climate](https://codeclimate.com/github/JS-Tech/simple_markdown/badges/gpa.svg)](https://codeclimate.com/github/JS-Tech/simple_markdown)
 
 # SimpleMarkdown
 
