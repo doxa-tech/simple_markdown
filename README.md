@@ -74,3 +74,11 @@ This block n°2 has 1/5th of the with
 
 [flex]
 ```
+
+* Center content with
+```
+->Text centered<-
+->
+This block and all it's content is centered
+<-
+```
