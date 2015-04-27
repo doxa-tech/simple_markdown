@@ -35,6 +35,8 @@ module SimpleMarkdown
           parse_title                  # title, only works if has return before (except first time)
         elsif @text_map.peek.match(/^\s*\[[0-9]+flex[0-9]*\]\s*$/)
           parse_flex
+        elsif @text_map.peek.match(/^\s*->\s*$/)
+          parse_center
         else                            # normal block
           parse_p
         end
@@ -56,13 +58,14 @@ module SimpleMarkdown
 
       def parse_normal
         line = @text_map.next
+        line.gsub!(/^\s*->(.*)<-(\s*)$/, "<center>#{'\1'}</center>#{'\2'}")
         line.gsub!(/(^|[^!])\[([^\]]*)\]\(([^\)]*)\)/, "#{'\1'}<a href=\"#{'\3'.strip}\">#{'\2'}</a>") # link
         line.gsub!(/!\[([^\]]*)\]\(([^\)]*)\)/, "<img src=\"#{'\2'}\" alt=\"#{'\1'.strip}\">") # image
         line.gsub!(/^\s*\*\s(.*)/, "• #{'\1'}<br>") # list
         line.gsub!(/`([^`]+)`/) { |match| "<code>#{CGI::escapeHTML(Regexp.last_match[1])}</code>"} # inline code
         line.gsub!(/(^|[^\*])\*([^\*]+)\*/, "#{'\1'}<em>#{'\2'}</em>") # italic
         line.gsub!(/\*\*([^\*]*)\*\*/, "<strong>#{'\1'}</strong>") # bold
-        @io << line.gsub(/^([^\s]*)\s+$/, '\1 ') # prints one space if on or more at then end of the line
+        @io << line.gsub(/^([^\s]*)\s+$/, '\1 ') # prints one space if one or more at then end of the line
         @io << "<br>\n" if line.match(/\s{2,}$/) # return if more than 2 spaces at the end of the line
       end
 
@@ -119,6 +122,16 @@ module SimpleMarkdown
         # ensure
           @io << "\n</div>"
         # end
+      end
+
+      def parse_center
+        @io << "<center>\n"
+        @text_map.next
+        while(!@text_map.peek.match(/^\s*<-\s*/))
+          parse_block
+        end
+        @io << "\n</center>"
+        @text_map.next if @io.peek.match(/^\s*<-\s*$/)
       end
 
     end

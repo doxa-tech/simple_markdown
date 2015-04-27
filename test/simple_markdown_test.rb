@@ -43,12 +43,24 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
  		assert_equal "<p>\nText <br>\nand more\n</p>", simple_markdown("Text  \nand more")
  	end
 
+	test "link" do
+		assert_equal "<p>\n<a href=\"http://example.ch\">link</a>\n</p>", simple_markdown("[link](http://example.ch)")
+		assert_equal "<p>\nText <a href=\"http://example.ch\">link</a> text\n</p>", simple_markdown("Text [link](http://example.ch) text")
+	end
+
+	test "image" do
+		assert_equal "<p>\n<img src=\"http://example.ch\" alt=\"desc\">\n</p>", simple_markdown("![desc](http://example.ch)")
+		assert_equal "<p>\nText <img src=\"http://example.ch\" alt=\"desc\"> text\n</p>", simple_markdown("Text ![desc](http://example.ch) text")
+	end
+
  	test "emphasis" do
  		assert_equal "<p>\n<em>Text</em>\n</p>", simple_markdown("*Text*")
+		assert_equal "<p>\nText <em>Text</em> text\n</p>", simple_markdown("Text *Text* text")
  	end
 
  	test "strong" do
  		assert_equal "<p>\n<strong>Text</strong>\n</p>", simple_markdown("**Text**")
+		assert_equal "<p>\nText <strong>Text</strong> text\n</p>", simple_markdown("Text **Text** text")
  	end
 
  	test "list" do
@@ -78,6 +90,15 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
 		# skip("flex block is in WIP")
 		assert_equal "<div style=\"display:flex; justify-content:space-between; align-items: flex-start;\">\n<div style=\"flex:1;\">\n<p>\nThis is text\n</p>\n</div><div style=\"flex:3;\">\n<p>\nThis is text\n</p>\n</div>\n</div>",
 				simple_markdown("[2flex1]\nThis is text\n\n[flex3]\nThis is text\n\n[flex]")
+	end
+
+	test "center a line" do
+		assert_equal "<p>\n<center>Centered text</center>\n</p>", simple_markdown("->Centered text<-")
+	end
+
+	test "center a block" do
+		assert_equal "<center>\n<p>\nText\n</p>\n</center>", simple_markdown("->\nText\n\n<-")
+		assert_equal "<center>\n<p>\nText\n</p><p>\nText\n</p>\n</center>", simple_markdown("->\n\nText\n\nText\n\n<-")
 	end
 
 end

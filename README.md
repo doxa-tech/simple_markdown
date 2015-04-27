@@ -40,10 +40,12 @@ This is an image : [description](http://example.com/im.png)
 This is a ![link](http://example.com)
 ```
 
-# Special non-markdown
+# Special non-markdown, consider it as an extra DSL
+
 I aded the ability to make horizontal blocks.
 
 * Two horizontal block with (specify the number of block in the first tag)
+
 ```
 [2flex]
 
@@ -63,6 +65,7 @@ Normal paragraph, not in block.
 ```
 
 * You can specify the width of each block, relative to the other ones
+
 ```
 [2flex4]
 
@@ -73,4 +76,18 @@ This block n°1 has 4/5th of the width
 This block n°2 has 1/5th of the with
 
 [flex]
+```
+
+* center content with
+
+```
+->Centered text<-
+```
+
+```
+->
+
+# Centerd title
+
+<-
 ```
