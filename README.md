@@ -9,6 +9,18 @@ This project rocks and uses MIT-LICENSE.
 
 **Note** : does not provide an exhaustive markdown parser. It is intended only to give the most simple and usefull syntax, so as to keep it simple (stupid?).
 
+# Installation
+
+```
+# Gemfile
+source 'https://rubygems.org'
+gem 'simple_markdown'
+```
+
+Then run `bundle install`.
+
+Can also do `gem install simple_markdown`
+
 # Features
 
 * Titles with
