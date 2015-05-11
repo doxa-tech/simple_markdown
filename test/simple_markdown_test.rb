@@ -81,7 +81,6 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
 	end
 
 	test "flex block" do
-		# skip("flex block is in WIP")
 		assert_equal "<div style=\"display:flex; justify-content:space-between; align-items: flex-start;\">\n<div>\n<p>\nThis is text\n</p>\n</div><div>\n<p>\nThis is text\n</p>\n</div>\n</div>",
 				simple_markdown("[2flex]\nThis is text\n\n[flex]\nThis is text\n\n[flex]")
 	end
@@ -99,6 +98,18 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
 	test "center a block" do
 		assert_equal "<center>\n<p>\nText\n</p>\n</center>", simple_markdown("->\nText\n\n<-")
 		assert_equal "<center>\n<p>\nText\n</p><p>\nText\n</p>\n</center>", simple_markdown("->\n\nText\n\nText\n\n<-")
+	end
+
+	test "center a block and add text after" do
+		assert_equal "<center>\n<p>\nText\n</p>\n</center><p>\nText\n</p>", simple_markdown("->\n\nText\n\n<-\n\nText")
+	end
+
+	test "center a flex" do
+		assert_equal "<center>\n<div style=\"display:flex; justify-content:space-between; align-items: flex-start;\">\n<div>\n<p>\nText\n</p>\n</div>\n</div>\n</center><p>\nText\n</p>", simple_markdown("->\n\n[1flex]\n\nText\n\n[flex]\n\n<-\n\nText")
+	end
+
+	test "center a title" do
+		assert_equal "<center>\n<h1>Title</h1>\n</center>", simple_markdown("->\n#Title\n<-")
 	end
 
 end

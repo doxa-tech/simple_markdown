@@ -131,7 +131,7 @@ module SimpleMarkdown
           parse_block
         end
         @io << "\n</center>"
-        @text_map.next if @io.peek.match(/^\s*<-\s*$/)
+        @text_map.next
       end
 
     end
