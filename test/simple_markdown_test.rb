@@ -23,6 +23,10 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
 		assert_equal "", simple_markdown("\n\n\n")
 	end
 
+	test "empty paragraph" do
+		assert_equal"<p>\n \n</p>", simple_markdown("\n \n")
+	end
+
  	test "paragraph" do
  		assert_equal "<p>\nText\n</p>", simple_markdown("Text")
  	end
@@ -82,11 +86,16 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
 
 	test "flex block" do
 		assert_equal "<div style=\"display:flex; justify-content:space-between; align-items: flex-start;\">\n<div>\n<p>\nThis is text\n</p>\n</div><div>\n<p>\nThis is text\n</p>\n</div>\n</div>",
-				simple_markdown("[2flex]\nThis is text\n\n[flex]\nThis is text\n\n[flex]")
+				simple_markdown("[2-flex]\nThis is text\n\n[flex]\nThis is text\n\n[flex]")
 	end
 
 	test "flex block with space specified" do
 		# skip("flex block is in WIP")
+		assert_equal "<div style=\"display:flex; justify-content:space-between; align-items: flex-start;\">\n<div style=\"flex:1;\">\n<p>\nThis is text\n</p>\n</div><div style=\"flex:3;\">\n<p>\nThis is text\n</p>\n</div>\n</div>",
+				simple_markdown("[2-flex-1]\nThis is text\n\n[flex-3]\nThis is text\n\n[flex]")
+	end
+
+	test "flex should work without '-'" do
 		assert_equal "<div style=\"display:flex; justify-content:space-between; align-items: flex-start;\">\n<div style=\"flex:1;\">\n<p>\nThis is text\n</p>\n</div><div style=\"flex:3;\">\n<p>\nThis is text\n</p>\n</div>\n</div>",
 				simple_markdown("[2flex1]\nThis is text\n\n[flex3]\nThis is text\n\n[flex]")
 	end
@@ -105,7 +114,7 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
 	end
 
 	test "center a flex" do
-		assert_equal "<center>\n<div style=\"display:flex; justify-content:space-between; align-items: flex-start;\">\n<div>\n<p>\nText\n</p>\n</div>\n</div>\n</center><p>\nText\n</p>", simple_markdown("->\n\n[1flex]\n\nText\n\n[flex]\n\n<-\n\nText")
+		assert_equal "<center>\n<div style=\"display:flex; justify-content:space-between; align-items: flex-start;\">\n<div>\n<p>\nText\n</p>\n</div>\n</div>\n</center><p>\nText\n</p>", simple_markdown("->\n\n[1-flex]\n\nText\n\n[flex]\n\n<-\n\nText")
 	end
 
 	test "center a title" do
