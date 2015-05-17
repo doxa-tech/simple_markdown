@@ -59,7 +59,7 @@ I aded the ability to make horizontal blocks.
 * Two horizontal block with (specify the number of block in the first tag)
 
 ```
-[2flex]
+[2-flex]
 
 This is the flex block number one, with
 * a list
@@ -79,11 +79,11 @@ Normal paragraph, not in block.
 * You can specify the width of each block, relative to the other ones
 
 ```
-[2flex4]
+[2-flex-4]
 
 This block n°1 has 4/5th of the width
 
-[flex1]
+[flex-1]
 
 This block n°2 has 1/5th of the with
 
