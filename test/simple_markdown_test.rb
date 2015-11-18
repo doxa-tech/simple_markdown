@@ -121,4 +121,8 @@ class SimpleMarkdownTest < ActiveSupport::TestCase # ActionView::TestCase
 		assert_equal "<center>\n<h1>Title</h1>\n</center>", simple_markdown("->\n#Title\n<-")
 	end
 
+	test "center" do
+		assert_equal "<center>\n<p>\nNous fêtons nouvel an en famille !\n</p>\n</center>", simple_markdown("->\nNous fêtons nouvel an en famille !\n<-")
+	end
+
 end

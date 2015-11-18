@@ -20,6 +20,8 @@ module SimpleMarkdown
       BOLD         = /\*\*([^\*]*)\*\*/
       RETURN       = /\s{2,}$/
 
+      END_OF_P     = Regexp.union(USELESS_LINE,CENTER_BLOCK_2)
+
       @text_map
       @io
       @current
@@ -61,10 +63,10 @@ module SimpleMarkdown
       def parse_p
         begin
           @io << "<p>\n"
-          while(!@text_map.peek.match(USELESS_LINE)) # end paragraph if empty line
+          while(!@text_map.peek.match(END_OF_P)) # end paragraph if empty line
             parse_normal
           end
-          @text_map.next;
+          @text_map.next if !@text_map.peek.match(END_OF_P);
         rescue StopIteration
           # do nothing
         ensure
